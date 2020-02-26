@@ -1,0 +1,45 @@
+@model List<Wedding>
+
+<h1>Welcome @ViewBag.User.FirstName!</h1>
+
+<a asp-action="Logout" asp-controller="Home" class="btn btn-danger">Logout</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Wedding</th>
+            <th>Date</th>
+            <th>Guests</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach( var w in @Model)
+        {
+            <tr>
+                <td><a asp-action="Show" asp-controller="Wedding" asp-route-weddingId="@w.WeddingId">@w.WedderOne & @w.WedderTwo</a></td>
+                <td>@w.Date.ToString("d")</td>
+                <td>@w.GuestList.Count</td>
+                @if(@ViewBag.User.UserId == @w.UserId)
+                {
+                    <td><a asp-action="Destroy" asp-controller="Wedding" asp-route-WeddingId="@w.WeddingId">DELETE</a></td>
+                }
+                else
+                {
+                    @if(w.GuestList.All(r => r.UserId != @ViewBag.User.UserId))
+                    {
+                        <td><a asp-action="RSVP" asp-controller="Wedding" asp-route-weddingId="@w.WeddingId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="add">RSVP</a></td>
+                    }
+                    @if(w.GuestList.Any(r => r.UserId == @ViewBag.User.UserId))
+                    {
+                        <td><a asp-action="RSVP" asp-controller="Wedding" asp-route-weddingId="@w.WeddingId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="remove">Un-RSVP</a></td>
+                    }
+                }
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="New" asp-controller="Wedding">Create Wedding</a>

@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model LoginUser
+
+<h1>Login</h1>
+<a asp-action="Index" asp-controller="Home" class="btn btn-warning" >Register</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="LogIn" asp-controller="Home" method="post">
+    <label asp-for="LoginEmail"></label>
+    <input asp-for="LoginEmail"><br>
+    <label asp-for="LoginPassword"></label>
+    <input asp-for="LoginPassword"><br>
+    <input type="submit" value="LogIn" class="btn  btn-danger">
+</form>
